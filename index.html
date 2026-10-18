@@ -55,7 +55,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-width: 320px;
@@ -283,7 +283,7 @@
     }
     .phase {
       position: relative;
-      scroll-margin-top: 88px;
+      scroll-margin-top: var(--ctrl-h, 88px);
       margin-bottom: 14px;
       background: var(--panel);
       border: 1px solid var(--line);
@@ -622,8 +622,6 @@
       .chain li + li::before { top: 19px; }
     }
     @media (max-width: 620px) {
-      html { scroll-padding-top: 132px; }
-      .phase { scroll-margin-top: 132px; }
       .page { width: calc(100% - 20px); padding-top: 12px; }
       .flag { width: 62px; }
       .flag-label { font-size: 8px; }
@@ -1088,7 +1086,22 @@
       var btnAll = document.getElementById("btn-all");
       var btnPresent = document.getElementById("btn-present");
       var btnFs = document.getElementById("btn-fs");
+      var controlsBar = document.querySelector(".controls");
       var TOTAL = phases.length;
+
+      /* Keep --ctrl-h equal to the sticky toolbar's real height so a
+         stepped-to phase lands with its top edge flush against the
+         toolbar's bottom edge — no overlap, no stray gap — at any
+         viewport width, including when the toolbar wraps. */
+      function syncCtrlH() {
+        if (controlsBar) {
+          document.documentElement.style.setProperty("--ctrl-h", controlsBar.offsetHeight + "px");
+        }
+      }
+      syncCtrlH();
+      window.addEventListener("resize", syncCtrlH);
+      window.addEventListener("load", syncCtrlH);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncCtrlH);
       var current = 0;
       var allOpen = false;
 
@@ -1103,6 +1116,19 @@
         });
       }
 
+      var scrollTimer = null;
+      function scrollToPhase(index) {
+        /* The phase above animates open/closed for ~0.38s, which moves
+           this phase's top while any scroll is in flight — scrolling
+           immediately lands short or long of the toolbar. Wait for the
+           layout to settle, then glide so the phase top parks flush
+           against the toolbar's bottom edge. */
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(function () {
+          phases[index].scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 400);
+      }
+
       function openOnly(index, scroll) {
         allOpen = false;
         btnAll.setAttribute("aria-pressed", "false");
@@ -1115,9 +1141,7 @@
         });
         current = index;
         syncUI();
-        if (scroll) {
-          phases[index].scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        if (scroll) scrollToPhase(index);
       }
 
       function toggle(index) {
@@ -1162,7 +1186,8 @@
       btnPresent.addEventListener("click", function () {
         var on = document.body.classList.toggle("present");
         btnPresent.setAttribute("aria-pressed", on ? "true" : "false");
-        if (on) phases[current].scrollIntoView({ behavior: "smooth", block: "start" });
+        syncCtrlH();
+        if (on) scrollToPhase(current);
       });
 
       btnFs.addEventListener("click", function () {
