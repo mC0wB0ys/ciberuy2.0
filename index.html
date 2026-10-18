@@ -55,7 +55,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
     body {
       margin: 0;
       min-width: 320px;
@@ -208,7 +208,7 @@
     }
     .chain {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 0;
       list-style: none;
       margin: 0;
@@ -283,6 +283,7 @@
     }
     .phase {
       position: relative;
+      scroll-margin-top: 88px;
       margin-bottom: 14px;
       background: var(--panel);
       border: 1px solid var(--line);
@@ -621,6 +622,8 @@
       .chain li + li::before { top: 19px; }
     }
     @media (max-width: 620px) {
+      html { scroll-padding-top: 132px; }
+      .phase { scroll-margin-top: 132px; }
       .page { width: calc(100% - 20px); padding-top: 12px; }
       .flag { width: 62px; }
       .flag-label { font-size: 8px; }
@@ -659,15 +662,12 @@
             <text x="5" y="56">★ ★ ★ ★ ★ ★</text><text x="13" y="67">★ ★ ★ ★ ★</text>
           </g>
         </svg>
-        <span class="flag-label">United States<br>partner force</span>
       </div>
       <div class="mast-copy">
-        <div class="edition">Bilateral cyber defense exercise · Attack path walkthrough</div>
         <h1>CiberUY 2.0</h1>
         <p class="mast-sub">March 15–19, 2027 · Monday–Friday</p>
       </div>
       <div class="flag-block right">
-        <span class="flag-label">Uruguay<br>partner force</span>
         <svg class="flag" viewBox="0 0 180 120" role="img" aria-label="Flag of Uruguay">
           <rect width="180" height="120" fill="#fff"/>
           <g fill="#0038a8"><rect y="13.33" width="180" height="13.33"/><rect y="40" width="180" height="13.33"/><rect y="66.67" width="180" height="13.33"/><rect y="93.33" width="180" height="13.33"/></g>
@@ -681,29 +681,26 @@
       </div>
     </header>
 
-    <p class="lede">Seven steps carry the fictional hacktivist crew <strong>Regist3r R3apers</strong> from a single phished password to hands on a simulated water-treatment process — no zero-days, no brute force, just trusted access abused in sequence. Walk the chain step by step: select any phase to open it.</p>
-
     <div class="controls" role="toolbar" aria-label="Walkthrough controls">
-      <span class="progress-label">Phase <b id="prog-now">1</b> of 7</span>
+      <span class="progress-label">Phase <b id="prog-now">1</b> of 6</span>
       <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="prog-fill"></div></div>
       <button class="ctl-btn" id="btn-prev" type="button"><span class="arr" aria-hidden="true">←</span> Prev</button>
       <button class="ctl-btn" id="btn-next" type="button">Next <span class="arr" aria-hidden="true">→</span></button>
       <button class="ctl-btn" id="btn-all" type="button" aria-pressed="false">Expand all</button>
       <button class="ctl-btn" id="btn-present" type="button" aria-pressed="false">Presenter mode</button>
       <button class="ctl-btn" id="btn-fs" type="button">Fullscreen</button>
-      <span class="kbd-hint"><kbd>↑</kbd><kbd>↓</kbd> step · <kbd>1</kbd>–<kbd>7</kbd> jump</span>
+      <span class="kbd-hint"><kbd>↑</kbd><kbd>↓</kbd> step · <kbd>1</kbd>–<kbd>6</kbd> jump</span>
     </div>
 
     <nav class="chain-wrap" aria-label="Attack chain overview">
       <p class="chain-label">The chain at a glance — select a node to jump to that phase</p>
       <ol class="chain" id="chain">
         <li data-i="0"><button type="button"><span class="node">1</span><span class="node-name">The Phish</span></button></li>
-        <li data-i="1"><button type="button"><span class="node">2</span><span class="node-name">Keys to the Kingdom</span></button></li>
-        <li data-i="2"><button type="button"><span class="node">3</span><span class="node-name">Reading the Source</span></button></li>
-        <li data-i="3"><button type="button"><span class="node">4</span><span class="node-name">The Crown Jewels</span></button></li>
-        <li data-i="4"><button type="button"><span class="node">5</span><span class="node-name">The Trojan Utility</span></button></li>
-        <li data-i="5"><button type="button"><span class="node">6</span><span class="node-name">The IT/OT Bridge</span></button></li>
-        <li data-i="6"><button type="button"><span class="node">7</span><span class="node-name">Hands on the Process</span></button></li>
+        <li data-i="1"><button type="button"><span class="node">2</span><span class="node-name">Reading the Source</span></button></li>
+        <li data-i="2"><button type="button"><span class="node">3</span><span class="node-name">The Keys in the Config</span></button></li>
+        <li data-i="3"><button type="button"><span class="node">4</span><span class="node-name">The Outage Map</span></button></li>
+        <li data-i="4"><button type="button"><span class="node">5</span><span class="node-name">Breaking the Box</span></button></li>
+        <li data-i="5"><button type="button"><span class="node">6</span><span class="node-name">Hands on the Process</span></button></li>
       </ol>
     </nav>
 
@@ -723,7 +720,7 @@
               <div>
                 <p class="detail-label red">The move</p>
                 <p class="move-text">Regist3r R3apers open with the oldest trick in the book, aimed carefully. Utility staff receive a plausible IT notice — your single sign-on password is expiring — linking to a pixel-perfect copy of the organization's Keycloak login page.</p>
-                <p class="move-text">One employee types in real credentials. That single password is the only exploit the crew needs for the entire operation.</p>
+                <p class="move-text">One employee types in real credentials. That single password is the key to the whole identity side of the operation — everything the crew learns about the plant starts here.</p>
               </div>
               <div>
                 <p class="detail-label">How it unfolds</p>
@@ -734,9 +731,9 @@
                 </ol>
                 <p class="detail-label" style="margin-top:20px">What defenders can see</p>
                 <ul class="sightline">
-                  <li>A newly registered lookalike domain in mail gateway logs</li>
-                  <li>User reports through the phish button</li>
-                  <li>A successful login from an unfamiliar source shortly after</li>
+                  <li>The lure arriving in the inbound mail logs at the gateway</li>
+                  <li>The user clicking the link, visible in proxy and click telemetry</li>
+                  <li>Authentication events in the Keycloak logs as the harvested credential is replayed against the real identity provider</li>
                 </ul>
               </div>
               <div class="lesson">
@@ -762,11 +759,11 @@
       </section>
 
       <!-- PHASE 2 -->
-      <section class="phase" data-step="02" aria-label="Phase 2: Valid accounts at the identity provider">
+      <section class="phase" data-step="02" aria-label="Phase 2: Repository enumeration in source control">
         <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-2" id="head-2">
-          <span class="tactic-row"><span class="tactic">Credential Access → Privilege Escalation</span><span class="framework">MITRE ATT&amp;CK</span></span>
-          <h2>Keys to the Kingdom</h2>
-          <p class="phase-teaser">The stolen password logs straight into Keycloak — and everything federated behind it.</p>
+          <span class="tactic-row"><span class="tactic">Discovery · Recon in Source Control</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>Reading the Source</h2>
+          <p class="phase-teaser">The phished credentials open the organization's repositories — the crew enumerates everything the account can see.</p>
           <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
         </button>
         <div class="phase-body" id="body-2" role="region" aria-labelledby="head-2">
@@ -774,73 +771,22 @@
             <div class="phase-detail">
               <div>
                 <p class="detail-label red">The move</p>
-                <p class="move-text">No exploit, no escalation — the crew simply logs in. Keycloak is the front door to every application federated behind it, so one working identity quietly unlocks mail, internal apps, and source control.</p>
-                <p class="move-text">The session token the IdP issues is now the actor's passport, indistinguishable from the real user's own sign-in.</p>
+                <p class="move-text">The password's real value shows here. Signed in as a legitimate user, the crew walks the organization's source control — its GitHub-style repositories on Gitea — the way an insider would: organization by organization, repository by repository, cataloguing projects, permissions, and history.</p>
+                <p class="move-text">Nothing is exploited and nothing is forced. This phase builds a map: what exists, who owns it, and which repositories describe how the plant actually runs. The interesting ones get cloned in bulk and taken away for quiet study.</p>
               </div>
               <div>
                 <p class="detail-label">How it unfolds</p>
                 <ol class="steps">
-                  <li>The actor authenticates to the real Keycloak realm with the harvested credentials.</li>
-                  <li>The issued SSO session is used to enumerate which applications the account can reach.</li>
-                  <li>Source control — Gitea — stands out: same login, far richer target.</li>
+                  <li>The actor signs in with the phished credentials — the same SSO the real user uses, through Keycloak.</li>
+                  <li>Organizations, repositories, and the account's permissions across them are enumerated.</li>
+                  <li>Keyword searches — <em>hmi</em>, <em>register</em>, <em>modbus</em>, <em>api</em>, <em>config</em> — rank the repositories worth taking.</li>
+                  <li>Candidate repositories are bulk-cloned for offline analysis.</li>
                 </ol>
                 <p class="detail-label" style="margin-top:20px">What defenders can see</p>
                 <ul class="sightline">
-                  <li>IdP login from a new network, geography, or device fingerprint</li>
-                  <li>Off-hours authentication against the account's normal pattern</li>
-                  <li>Session tokens presented from two places at once</li>
-                </ul>
-              </div>
-              <div class="lesson">
-                <p class="detail-label">Defender lesson</p>
-                <p>Treat the identity provider as a tier-0 asset: alert on anomalous logins, enforce conditional access, and make session revocation a one-click response — it cuts the actor's passport off mid-chain.</p>
-              </div>
-              <div class="meta-row">
-                <div class="meta-block">
-                  <p class="detail-label">Techniques</p>
-                  <div class="tech-chips">
-                    <span><b>T1078</b> Valid Accounts</span>
-                    <span><b>T1133</b> External Remote Services</span>
-                  </div>
-                </div>
-                <div class="meta-block">
-                  <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">Keycloak realm · SSO federation to Gitea and internal apps</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PHASE 3 -->
-      <section class="phase" data-step="03" aria-label="Phase 3: Discovery in source control">
-        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-3" id="head-3">
-          <span class="tactic-row"><span class="tactic">Discovery</span><span class="framework">MITRE ATT&amp;CK</span></span>
-          <h2>Reading the Source</h2>
-          <p class="phase-teaser">Inside Gitea, the actor shops the repositories like an insider and finds the HMI integration project.</p>
-          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
-        </button>
-        <div class="phase-body" id="body-3" role="region" aria-labelledby="head-3">
-          <div class="phase-body-inner">
-            <div class="phase-detail">
-              <div>
-                <p class="detail-label red">The move</p>
-                <p class="move-text">With a legitimate seat inside Gitea, the crew searches the way any curious insider would: <em>hmi</em>, <em>register</em>, <em>modbus</em>, <em>api</em>. One repository documents exactly how the vendor tooling talks to the plant's human-machine interface.</p>
-                <p class="move-text">Source control stops being a developer convenience and becomes an intelligence archive on how the process is wired.</p>
-              </div>
-              <div>
-                <p class="detail-label">How it unfolds</p>
-                <ol class="steps">
-                  <li>Organizations, projects, and permissions visible to the account are enumerated.</li>
-                  <li>Keyword search surfaces the HMI integration repository and its documentation.</li>
-                  <li>READMEs, commit history, and config examples reveal the integration's design.</li>
-                </ol>
-                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
-                <ul class="sightline">
-                  <li>Repository enumeration and search by an account that never touches code</li>
-                  <li>Bulk clones or downloads outside normal working patterns</li>
-                  <li>Access reviews showing standing access far beyond job need</li>
+                  <li>Repository access from outside the organization — an unfamiliar network and geography for the account</li>
+                  <li>Bulk clones or downloads far outside the account's normal working pattern</li>
+                  <li>Wide enumeration and search by an account that never normally touches code</li>
                 </ul>
               </div>
               <div class="lesson">
@@ -851,13 +797,13 @@
                 <div class="meta-block">
                   <p class="detail-label">Techniques</p>
                   <div class="tech-chips">
+                    <span><b>T1078</b> Valid Accounts</span>
                     <span><b>T1213</b> Data from Information Repositories</span>
-                    <span><b>T1083</b> File and Directory Discovery</span>
                   </div>
                 </div>
                 <div class="meta-block">
                   <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">Seeded Gitea organization · HMI integration repository with realistic docs</p>
+                  <p class="needs">Keycloak SSO federation to Gitea · seeded organization with realistic projects, docs, and history</p>
                 </div>
               </div>
             </div>
@@ -865,34 +811,35 @@
         </div>
       </section>
 
-      <!-- PHASE 4 -->
-      <section class="phase" data-step="04" aria-label="Phase 4: Collection of the API key and register map">
-        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-4" id="head-4">
-          <span class="tactic-row"><span class="tactic">Collection</span><span class="framework">MITRE ATT&amp;CK</span></span>
-          <h2>The Crown Jewels</h2>
-          <p class="phase-teaser">A config file gives up the HMI API key; the register map explains what every address controls.</p>
+      <!-- PHASE 3 -->
+      <section class="phase" data-step="03" aria-label="Phase 3: Discovery of the register map and API key">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-3" id="head-3">
+          <span class="tactic-row"><span class="tactic">Discovery → Collection</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The Keys in the Config</h2>
+          <p class="phase-teaser">In the cloned repos: the legitimate workflow documents — the HMI register map — and an API key sitting in a config file.</p>
           <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
         </button>
-        <div class="phase-body" id="body-4" role="region" aria-labelledby="head-4">
+        <div class="phase-body" id="body-3" role="region" aria-labelledby="head-3">
           <div class="phase-body-inner">
             <div class="phase-detail">
               <div>
                 <p class="detail-label red">The move</p>
-                <p class="move-text">Buried in the repository are the two artifacts that turn access into capability: the API key the vendor tooling uses to talk to the HMI, and the register map — the engineering document that says which addresses drive pumps, valves, and chemical dosing.</p>
-                <p class="move-text">With the map, the actor doesn't have to guess what a write will do. They can read the process like a manual.</p>
+                <p class="move-text">Study pays off. Among the cloned repositories sit the plant's own legitimate workflow documents — including the register map, the engineering reference that says which HMI addresses drive pumps, valves, and chemical dosing. And in a committed configuration file, history included, is the API key the plant's tooling uses to talk to that HMI.</p>
+                <p class="move-text">The map tells the crew exactly what a write will do; the key lets them ask the API politely and be answered. They validate the key with read-only calls and learn the API's shape before ever changing a value.</p>
               </div>
               <div>
                 <p class="detail-label">How it unfolds</p>
                 <ol class="steps">
-                  <li>The API key is recovered from a committed configuration file and its history.</li>
-                  <li>The register map is extracted from project documentation and spreadsheets.</li>
-                  <li>A short target list is built: the registers whose manipulation will be felt.</li>
+                  <li>The workflow documents and register map are extracted from the cloned repositories.</li>
+                  <li>The HMI API key is recovered from a config file — and from its commit history.</li>
+                  <li>The key is tested with read-only API calls to confirm it works and map the endpoints.</li>
+                  <li>A target list is built: the registers whose manipulation will be felt in the process.</li>
                 </ol>
                 <p class="detail-label" style="margin-top:20px">What defenders can see</p>
                 <ul class="sightline">
-                  <li>Secret-scanning alerts on committed credentials</li>
-                  <li>Downloads of engineering documents by non-engineering accounts</li>
-                  <li>An API key that has never been rotated suddenly mattering</li>
+                  <li>Downloads of engineering documents by accounts with no engineering role</li>
+                  <li>Secret-scanning alerts on credentials committed to repositories</li>
+                  <li>The API key used from an unusual host — read calls outside the normal tooling pattern</li>
                 </ul>
               </div>
               <div class="lesson">
@@ -904,12 +851,65 @@
                   <p class="detail-label">Techniques</p>
                   <div class="tech-chips">
                     <span><b>T1552.001</b> Credentials in Files</span>
-                    <span><b>T1005</b> Data from Local System</span>
+                    <span><b>T1213</b> Data from Information Repositories</span>
                   </div>
                 </div>
                 <div class="meta-block">
                   <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">Planted API key in repo config · register map documentation</p>
+                  <p class="needs">Register map and workflow docs in the repos · planted API key in repo config · HMI API that answers the key</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 4 -->
+      <section class="phase" data-step="04" aria-label="Phase 4: Initial access into the DMZ through the GeoServer outage map">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-4" id="head-4">
+          <span class="tactic-row"><span class="tactic">Initial Access · Exploit Public-Facing Application</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The Outage Map</h2>
+          <p class="phase-teaser">The water utility's public outage map runs on GeoServer — an unpatched vulnerability in it opens the DMZ.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-4" role="region" aria-labelledby="head-4">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">Not every door is guarded by a password. The utility publishes a public "outage map" so customers can see which neighborhoods are without water — a GeoServer instance, internet-facing, sitting in the DMZ, and behind on patches.</p>
+                <p class="move-text">The crew exploits a known vulnerability in that GeoServer service and gets code execution on the map server. They now hold a second, independent foothold — this one inside the DMZ, the segment that hosts everything public.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>Recon of the utility's public services identifies the outage map and its GeoServer fingerprint.</li>
+                  <li>A known, unpatched GeoServer vulnerability is exploited for remote code execution.</li>
+                  <li>A foothold is established on the map server inside the DMZ.</li>
+                  <li>The crew orients: what this host is, what it can reach, and what reaches it.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>Exploit-shaped requests and error spikes in the GeoServer and web server logs</li>
+                  <li>The GeoServer service spawning shells or unexpected child processes</li>
+                  <li>New outbound or internal connections from a host that normally only serves map tiles</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Public-facing services are part of the plant's attack surface. Patch them like it, watch them like it — and assume anything living in the DMZ may already be hostile.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1190</b> Exploit Public-Facing Application</span>
+                    <span><b>T1133</b> External Remote Services</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">GeoServer serving a public outage map in the DMZ · vulnerable version or configuration</p>
                 </div>
               </div>
             </div>
@@ -918,11 +918,11 @@
       </section>
 
       <!-- PHASE 5 -->
-      <section class="phase" data-step="05" aria-label="Phase 5: Supply chain compromise of the vendor utility">
+      <section class="phase" data-step="05" aria-label="Phase 5: Docker breakout in the DMZ and discovery of the OT bridge">
         <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-5" id="head-5">
-          <span class="tactic-row"><span class="tactic">Defense Evasion · Supply Chain</span><span class="framework">MITRE ATT&amp;CK</span></span>
-          <h2>The Trojan Utility</h2>
-          <p class="phase-teaser">Instead of attacking the plant, the crew poisons the trusted vendor tool the plant already runs.</p>
+          <span class="tactic-row"><span class="tactic">Privilege Escalation · Escape to Host</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>Breaking the Box</h2>
+          <p class="phase-teaser">An exposed Docker socket turns the map server into root — and enumeration finds the one bridge into OT.</p>
           <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
         </button>
         <div class="phase-body" id="body-5" role="region" aria-labelledby="head-5">
@@ -930,38 +930,40 @@
             <div class="phase-detail">
               <div>
                 <p class="detail-label red">The move</p>
-                <p class="move-text">The crew doesn't attack the plant — they attack what the plant trusts. A vendor diagnostic utility, the kind technicians run without a second thought, is quietly modified so its next routine update carries the actor's code along with it.</p>
-                <p class="move-text">The version bump looks mundane. The signature check that would catch it was never enforced.</p>
+                <p class="move-text">The map service runs in Docker, and the container can reach the host's Docker socket — root, waiting to be asked. The crew starts a new container with root-level privileges over the host, mounts the host filesystem, and owns the DMZ box outright.</p>
+                <p class="move-text">From that height they enumerate the DMZ's routes and find the OT "bridge": the endpoint where the HMI lives. The bridge is the plant's blocker — it forwards nothing directly to the PLC. The only permitted path through it is port 1881, to the HMI and its API.</p>
               </div>
               <div>
                 <p class="detail-label">How it unfolds</p>
                 <ol class="steps">
-                  <li>The utility's source or distribution package is altered using the access already gained.</li>
-                  <li>The change is dressed as a routine maintenance release.</li>
-                  <li>It is published through the normal channel the technicians already trust.</li>
+                  <li>The accessible Docker socket is discovered from inside the compromised service.</li>
+                  <li>A privileged container is created, mounting the host — a clean escape to host root.</li>
+                  <li>The DMZ is enumerated from the host: routes, neighbors, and reachable services.</li>
+                  <li>The OT bridge is identified; probing confirms port 1881 to the HMI/API is open — and direct access to the PLC is refused.</li>
                 </ol>
                 <p class="detail-label" style="margin-top:20px">What defenders can see</p>
                 <ul class="sightline">
-                  <li>Binaries whose hashes don't match the vendor's published values</li>
-                  <li>Missing or invalid code signatures on an OT-adjacent tool</li>
-                  <li>An update appearing outside the vendor's normal release pattern</li>
+                  <li>Container-creation events and Docker socket access on a production host</li>
+                  <li>A new privileged container that matches no deployment baseline</li>
+                  <li>Enumeration and scanning traffic sourced from inside the DMZ</li>
+                  <li>Denied connection attempts from the DMZ toward PLC addresses</li>
                 </ul>
               </div>
               <div class="lesson">
                 <p class="detail-label">Defender lesson</p>
-                <p>Verify what you run. Code signing, hash verification, and a controlled update path are non-negotiable for any software allowed to touch operational systems.</p>
+                <p>The Docker socket is root by another name — no workload should ever reach it. And segmentation only counts when the one allowed path is narrow, logged, and watched.</p>
               </div>
               <div class="meta-row">
                 <div class="meta-block">
                   <p class="detail-label">Techniques</p>
                   <div class="tech-chips">
-                    <span><b>T1195.002</b> Compromise Software Supply Chain</span>
-                    <span><b>T1036</b> Masquerading</span>
+                    <span><b>T1611</b> Escape to Host</span>
+                    <span><b>T1610</b> Deploy Container</span>
                   </div>
                 </div>
                 <div class="meta-block">
                   <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">Vendor utility + update mechanism · an enforced-nowhere signing policy</p>
+                  <p class="needs">DMZ Docker host with a reachable socket · OT bridge endpoint · HMI/API on port 1881 · PLC reachable only through the bridge rules</p>
                 </div>
               </div>
             </div>
@@ -970,11 +972,11 @@
       </section>
 
       <!-- PHASE 6 -->
-      <section class="phase" data-step="06" aria-label="Phase 6: The dual-hatted IT OT endpoint bridge">
+      <section class="phase" data-step="06" aria-label="Phase 6: Actions on objectives through the HMI API">
         <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-6" id="head-6">
-          <span class="tactic-row"><span class="tactic">Lateral Movement · Execution</span><span class="framework">MITRE ATT&amp;CK</span></span>
-          <h2>The IT/OT Bridge</h2>
-          <p class="phase-teaser">The poisoned utility runs on a dual-hatted workstation — and the IT/OT seam gives way.</p>
+          <span class="tactic-row"><span class="tactic">Impact · Actions on Objectives</span><span class="framework">MITRE ATT&amp;CK for ICS</span></span>
+          <h2>Hands on the Process</h2>
+          <p class="phase-teaser">Register map in hand and a seat in the DMZ, the actor drives the treatment process through its own API.</p>
           <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
         </button>
         <div class="phase-body" id="body-6" role="region" aria-labelledby="head-6">
@@ -982,71 +984,19 @@
             <div class="phase-detail">
               <div>
                 <p class="detail-label red">The move</p>
-                <p class="move-text">One workstation lives in both worlds: it reads IT email and reaches OT systems, because that's how a small utility gets maintenance done. When the poisoned utility runs there during routine work, the actor crosses the seam defenders assumed was a wall.</p>
-                <p class="move-text">From that single foothold, the internal HMI API — never designed to face a hostile caller — is suddenly in reach.</p>
+                <p class="move-text">Everything converges. From the compromised host in the DMZ, the actor reaches through the bridge on port 1881 and calls the HMI API — authenticating with the stolen key and writing registers chosen straight from the stolen map: pumps commanded, setpoints shifted, chemical dosing altered.</p>
+                <p class="move-text">No malware touches a controller, and no request is malformed. Each call is authorized on paper; only the intent is hostile — and the simulated treatment process responds exactly as the real one would.</p>
               </div>
               <div>
                 <p class="detail-label">How it unfolds</p>
                 <ol class="steps">
-                  <li>A technician runs the updated utility as part of normal maintenance.</li>
-                  <li>The embedded code activates on the dual-hatted endpoint and establishes the actor's path inward.</li>
-                  <li>The actor stages from the endpoint toward the OT segment's HMI services.</li>
+                  <li>API calls are issued from the DMZ foothold, through the OT bridge on port 1881.</li>
+                  <li>Writes target the registers selected back in Phase 3 for maximum visible effect.</li>
+                  <li>Operators watch process values drift on the HMI with no local action to explain them.</li>
                 </ol>
                 <p class="detail-label" style="margin-top:20px">What defenders can see</p>
                 <ul class="sightline">
-                  <li>A diagnostic utility spawning shells or unexpected network connections</li>
-                  <li>New traffic flows from the IT side toward OT addresses</li>
-                  <li>Endpoint telemetry showing the tool behaving unlike its baseline</li>
-                </ul>
-              </div>
-              <div class="lesson">
-                <p class="detail-label">Defender lesson</p>
-                <p>Dual-hatted endpoints quietly dissolve segmentation. Dedicated jump hosts, application allow-listing, and tightly brokered paths across the seam are what make the boundary real.</p>
-              </div>
-              <div class="meta-row">
-                <div class="meta-block">
-                  <p class="detail-label">Techniques</p>
-                  <div class="tech-chips">
-                    <span><b>T1204.002</b> Malicious File</span>
-                    <span><b>T1021</b> Remote Services</span>
-                  </div>
-                </div>
-                <div class="meta-block">
-                  <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">Dual-homed workstation · segmented IT and OT networks to cross</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PHASE 7 -->
-      <section class="phase" data-step="07" aria-label="Phase 7: Action on objectives through the HMI API">
-        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-7" id="head-7">
-          <span class="tactic-row"><span class="tactic">Impact · Actions on Objectives</span><span class="framework">MITRE ATT&amp;CK for ICS</span></span>
-          <h2>Hands on the Process</h2>
-          <p class="phase-teaser">Using the plant's own API and its own key, the actor writes registers — the process becomes the payload.</p>
-          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
-        </button>
-        <div class="phase-body" id="body-7" role="region" aria-labelledby="head-7">
-          <div class="phase-body-inner">
-            <div class="phase-detail">
-              <div>
-                <p class="detail-label red">The move</p>
-                <p class="move-text">The endgame needs no malware on a controller and no exploit at all. The actor calls the plant's own HMI API, authenticates with the plant's own key, and writes register values straight from the stolen map: pumps commanded, setpoints shifted, dosing altered.</p>
-                <p class="move-text">Every request is well-formed and authorized on paper. Only the intent is hostile — and the simulated process responds exactly as the real one would.</p>
-              </div>
-              <div>
-                <p class="detail-label">How it unfolds</p>
-                <ol class="steps">
-                  <li>API calls are issued from the bridged endpoint using the recovered key.</li>
-                  <li>Writes target the registers chosen back in Phase 4 for maximum visible effect.</li>
-                  <li>Operators see process values drift on the HMI with no local action to explain them.</li>
-                </ol>
-                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
-                <ul class="sightline">
-                  <li>API writes originating from an unusual host or account context</li>
+                  <li>HMI and API logs showing write activity sourced from the DMZ</li>
                   <li>Setpoint changes with no matching operator action</li>
                   <li>Process values trending outside their normal envelope</li>
                 </ul>
@@ -1065,7 +1015,7 @@
                 </div>
                 <div class="meta-block">
                   <p class="detail-label">What this phase needs on the range</p>
-                  <p class="needs">HMI API simulator · simulated treatment process with a safety envelope</p>
+                  <p class="needs">HMI API on the bridge (port 1881) · simulated treatment process with a safety envelope · API logging that records the source segment</p>
                 </div>
               </div>
             </div>
@@ -1073,10 +1023,6 @@
         </div>
       </section>
 
-      <aside class="branch" aria-label="Alternate scenario branch">
-        <span class="tag">Alternate branch</span>
-        <p><strong>GeoServer outage map.</strong> A parallel storyline — tampering with the public outage map served by GeoServer — is held in reserve as a backup branch if the primary chain needs a pressure valve. The walkthrough above is the main event.</p>
-      </aside>
     </div>
 
     <div class="lower">
@@ -1088,7 +1034,7 @@
         <article class="card actor">
           <p class="detail-label red" style="margin-bottom:10px">Threat actor</p>
           <h3>Regist3r R3apers</h3>
-          <p>A fictional hacktivist crew — the name is the tell: their endgame is the register map of a water plant, and they get there through identity, not exploits.</p>
+          <p>A fictional hacktivist crew — the name is the tell: their endgame is the register map of a water plant, and they get there through other people's trust: stolen passwords, their own documents, and public services nobody patched.</p>
           <dl class="fact-list">
             <li><dt>Motivation</dt><dd>Publicity and embarrassment — prove a water utility can be reached, then claim credit</dd></li>
             <li><dt>Tradecraft</dt><dd>Identity-first: phishing, valid accounts, trusted tooling, legitimate APIs</dd></li>
@@ -1102,11 +1048,11 @@
           <p>Every step executes against services the range must stand up and seed — the dependencies that make the story reproducible.</p>
           <dl class="fact-list">
             <li><dt>Keycloak</dt><dd>Identity provider; realm, users, and SSO federation</dd></li>
-            <li><dt>Gitea</dt><dd>Source control holding the integration repo, API key, and register map</dd></li>
-            <li><dt>Vendor utility</dt><dd>Trusted diagnostic tool with a normal-looking update channel</dd></li>
-            <li><dt>Dual-hatted host</dt><dd>Workstation straddling the segmented IT and OT networks</dd></li>
+            <li><dt>Gitea</dt><dd>Source control holding the workflow docs, register map, and a config-file API key</dd></li>
+            <li><dt>GeoServer</dt><dd>Public outage map in the DMZ — the crew's way into the segment</dd></li>
+            <li><dt>Docker host (DMZ)</dt><dd>Runs the map service; its socket is the breakout</dd></li>
+            <li><dt>OT bridge</dt><dd>The blocker in front of the PLC; only port 1881 to the HMI/API passes</dd></li>
             <li><dt>HMI API</dt><dd>Simulated process API with a register map and safety limits</dd></li>
-            <li><dt>GeoServer</dt><dd>Outage-map service for the reserve branch</dd></li>
           </dl>
         </article>
       </div>
@@ -1117,7 +1063,7 @@
           <li><strong>Kill the phish's payoff</strong>Phishing-resistant MFA means a stolen password buys nothing.</li>
           <li><strong>Guard the IdP like tier-0</strong>Anomaly alerts plus fast session revocation strand the actor at the door.</li>
           <li><strong>Keep secrets out of source</strong>Scanning and rotation turn a leaked key into a dead key.</li>
-          <li><strong>Verify vendor tooling</strong>Signing and hash checks stop the trojan utility cold.</li>
+          <li><strong>Harden the public edge</strong>A patched outage map, a monitored DMZ, and a Docker socket no workload can touch close the doors this chain walks through.</li>
           <li><strong>Watch the process, not just the network</strong>Alarms on impossible setpoints catch what valid credentials hide.</li>
         </ol>
       </section>
@@ -1236,8 +1182,9 @@
           if (current < TOTAL - 1) { event.preventDefault(); openOnly(current + 1, true); }
         } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
           if (current > 0) { event.preventDefault(); openOnly(current - 1, true); }
-        } else if (/^[1-7]$/.test(event.key)) {
-          openOnly(parseInt(event.key, 10) - 1, true);
+        } else if (/^[1-9]$/.test(event.key)) {
+          var n = parseInt(event.key, 10) - 1;
+          if (n < TOTAL) openOnly(n, true);
         } else if (event.key === "Home") {
           event.preventDefault(); openOnly(0, true);
         } else if (event.key === "End") {
