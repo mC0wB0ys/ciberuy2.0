@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>CiberUY 2.0 — Attack Path Walkthrough</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --paper: #edf0ec;
+      --paper-2: #e2e7e1;
+      --ink: #102226;
+      --ink-2: #1b3238;
+      --muted: #496066;
+      --line: #a9b6b3;
+      --panel: #f8faf7;
+      --navy: #083b62;
+      --cyan: #087f8c;
+      --cyan-strong: #065e68;
+      --cyan-soft: #d3ebec;
+      --red: #b93a32;
+      --red-soft: #f3ddd9;
+      --gold: #9c7208;
+      --gold-soft: #f0e5c3;
+      --green: #1f775a;
+      --shadow: 0 14px 38px rgba(11, 37, 42, .12);
+      --ctrl-bg: rgba(248, 250, 247, .92);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #07171b;
+        --paper-2: #0b2025;
+        --ink: #ecf5f2;
+        --ink-2: #cfe4e0;
+        --muted: #9ab2b4;
+        --line: #315057;
+        --panel: #10282e;
+        --navy: #61a5d8;
+        --cyan: #4fc6cc;
+        --cyan-strong: #7fd8de;
+        --cyan-soft: #12363c;
+        --red: #ef766c;
+        --red-soft: #402321;
+        --gold: #e0b954;
+        --gold-soft: #3a321d;
+        --green: #65c59e;
+        --shadow: 0 18px 44px rgba(0, 0, 0, .34);
+        --ctrl-bg: rgba(11, 32, 37, .92);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", sans-serif;
+      line-height: 1.5;
+    }
+    button { font: inherit; color: inherit; }
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 20px 0 56px;
+    }
+
+    /* ---------- Masthead ---------- */
+    .masthead {
+      display: grid;
+      grid-template-columns: 170px 1fr 170px;
+      align-items: start;
+      gap: 26px;
+      border-top: 8px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0 22px;
+    }
+    .flag-block { display: flex; align-items: center; gap: 12px; }
+    .flag-block.right { justify-content: flex-end; text-align: right; }
+    .flag {
+      width: 82px;
+      aspect-ratio: 19 / 10;
+      display: block;
+      flex: 0 0 auto;
+      border: 1px solid rgba(16,34,38,.28);
+      box-shadow: 0 3px 9px rgba(0,0,0,.14);
+      background: #fff;
+    }
+    .flag-label {
+      font: 600 10px/1.3 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mast-copy { text-align: center; }
+    .edition {
+      font: 600 11px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--cyan-strong);
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 0;
+      font: 800 clamp(44px, 7vw, 88px)/.85 "Barlow Condensed", sans-serif;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+    }
+    .mast-sub {
+      margin: 10px auto 0;
+      font: 500 clamp(14px, 2vw, 19px)/1.25 "IBM Plex Mono", monospace;
+      color: var(--muted);
+    }
+    .mast-sub strong { color: var(--red); font-weight: 600; }
+
+    .lede {
+      margin: 22px auto 0;
+      max-width: 840px;
+      text-align: center;
+      font-size: clamp(15px, 1.6vw, 18px);
+      color: var(--ink-2);
+    }
+    .lede strong { color: var(--red); }
+
+    /* ---------- Control bar ---------- */
+    .controls {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      margin-top: 24px;
+      background: var(--ctrl-bg);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 10px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+    .controls .progress-label {
+      font: 600 11px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 118px;
+    }
+    .controls .progress-label b { color: var(--ink); font-size: 13px; }
+    .progress-track {
+      flex: 1 1 140px;
+      height: 6px;
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      min-width: 110px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--cyan);
+      transition: width .35s ease;
+    }
+    .ctl-btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 8px 13px;
+      font: 600 11px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
+    }
+    .ctl-btn:hover { border-color: var(--cyan); color: var(--cyan-strong); }
+    .ctl-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .ctl-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .ctl-btn:disabled { opacity: .38; cursor: default; }
+    .ctl-btn:disabled:hover { border-color: var(--line); color: inherit; }
+    .ctl-btn .arr { font-size: 13px; line-height: 1; }
+    .kbd-hint {
+      font: 500 10px/1.3 "IBM Plex Mono", monospace;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+    kbd {
+      border: 1px solid var(--line);
+      border-bottom-width: 2px;
+      background: var(--panel);
+      padding: 0 4px;
+      font: 600 10px/1.5 "IBM Plex Mono", monospace;
+    }
+
+    /* ---------- Chain overview ---------- */
+    .chain-wrap { margin-top: 26px; }
+    .chain-label {
+      font: 600 10px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .chain li { position: relative; min-width: 0; }
+    .chain li + li::before {
+      content: "";
+      position: absolute;
+      top: 19px;
+      left: -50%;
+      width: 100%;
+      height: 2px;
+      background: var(--line);
+      z-index: 0;
+    }
+    .chain li.done + li::before, .chain li.current + li::before { background: var(--cyan); }
+    .chain button {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      padding: 0 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      text-align: center;
+    }
+    .chain button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .node {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      background: var(--panel);
+      display: grid;
+      place-items: center;
+      font: 600 12px/1 "IBM Plex Mono", monospace;
+      color: var(--muted);
+      transition: all .2s ease;
+    }
+    .chain li.done .node { border-color: var(--cyan); background: var(--cyan); color: #fff; }
+    .chain li.current .node {
+      border-color: var(--red);
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 0 0 5px var(--red-soft);
+    }
+    .node-name {
+      font: 600 9.5px/1.25 "IBM Plex Mono", monospace;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      max-width: 130px;
+    }
+    .chain li.current .node-name { color: var(--red); }
+    .chain li.done .node-name { color: var(--cyan-strong); }
+
+    /* ---------- Stepper ---------- */
+    .stepper { margin-top: 30px; position: relative; }
+    .stepper::before {
+      content: "";
+      position: absolute;
+      left: 27px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: repeating-linear-gradient(var(--line) 0 7px, transparent 7px 13px);
+    }
+    .phase {
+      position: relative;
+      margin-bottom: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      margin-left: 68px;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .phase::before {
+      content: attr(data-step);
+      position: absolute;
+      left: -68px;
+      top: 16px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid var(--line);
+      display: grid;
+      place-items: center;
+      font: 600 15px/1 "IBM Plex Mono", monospace;
+      color: var(--muted);
+      z-index: 1;
+      transition: all .2s ease;
+    }
+    .phase.visited::before { border-color: var(--cyan); color: var(--cyan-strong); }
+    .phase.open { border-color: var(--cyan); box-shadow: var(--shadow); }
+    .phase.open::before { background: var(--red); border-color: var(--red); color: #fff; }
+    .phase-head {
+      width: 100%;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      text-align: left;
+      padding: 20px 56px 20px 24px;
+      position: relative;
+      display: block;
+    }
+    .phase-head:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+    .tactic-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 14px;
+      margin-bottom: 5px;
+    }
+    .tactic {
+      font: 600 10.5px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .framework {
+      font: 500 9.5px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 3px 6px;
+    }
+    .phase-head h2 {
+      margin: 0;
+      font: 700 clamp(28px, 4vw, 42px)/.95 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+    }
+    .phase-teaser {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 720px;
+    }
+    .chevron {
+      position: absolute;
+      right: 20px;
+      top: 24px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      transition: transform .25s ease, background .2s ease, color .2s ease;
+    }
+    .chevron svg { width: 14px; height: 14px; }
+    .phase.open .chevron { transform: rotate(180deg); background: var(--cyan); border-color: var(--cyan); color: #fff; }
+
+    .phase-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .38s ease;
+    }
+    .phase.open .phase-body { grid-template-rows: 1fr; }
+    .phase-body-inner { overflow: hidden; min-height: 0; }
+    .phase-detail {
+      border-top: 1px solid var(--line);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 26px 34px;
+    }
+    .move-text { font-size: 16.5px; margin: 0; color: var(--ink-2); }
+    .move-text + .move-text { margin-top: 12px; }
+    .detail-label {
+      margin: 0 0 9px;
+      font: 600 10px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--cyan-strong);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .detail-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .detail-label.red { color: var(--red); }
+    .steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 11px; }
+    .steps li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      font-size: 14.5px;
+      color: var(--ink-2);
+    }
+    .steps li::before {
+      content: counter(step);
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--cyan);
+      color: var(--cyan-strong);
+      display: grid;
+      place-items: center;
+      font: 600 11px/1 "IBM Plex Mono", monospace;
+      margin-top: 1px;
+    }
+    .sightline { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+    .sightline li {
+      font-size: 14.5px;
+      color: var(--ink-2);
+      padding-left: 18px;
+      position: relative;
+    }
+    .sightline li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 9px;
+      height: 2px;
+      background: var(--cyan);
+    }
+    .lesson {
+      grid-column: 1 / -1;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 18px;
+      align-items: baseline;
+    }
+    .lesson .detail-label { color: var(--gold); margin: 0; white-space: nowrap; }
+    .lesson .detail-label::after { display: none; }
+    .lesson p { margin: 0; font-size: 15.5px; color: color-mix(in srgb, var(--paper) 88%, transparent); }
+    .meta-row {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px 40px;
+      border-top: 1px dashed var(--line);
+      padding-top: 16px;
+    }
+    .meta-block { min-width: 0; }
+    .meta-block .detail-label { margin-bottom: 7px; }
+    .meta-block .detail-label::after { display: none; }
+    .tech-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-chips span {
+      font: 500 11px/1.3 "IBM Plex Mono", monospace;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      padding: 4px 8px;
+      white-space: nowrap;
+    }
+    .tech-chips b { color: var(--red); font-weight: 600; }
+    .needs { font: 500 12.5px/1.45 "IBM Plex Mono", monospace; color: var(--muted); }
+
+    /* Alternate branch */
+    .branch {
+      margin-left: 68px;
+      border: 1px dashed var(--gold);
+      background: var(--gold-soft);
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+      align-items: baseline;
+    }
+    .branch .tag {
+      font: 600 10px/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .branch p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+    .branch strong { color: var(--ink); }
+
+    /* ---------- Lower sections ---------- */
+    .section-heading {
+      margin: 54px 0 18px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: end;
+      gap: 18px;
+    }
+    .section-heading h2 {
+      margin: 0;
+      font: 800 clamp(30px, 4.6vw, 50px)/.9 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -.02em;
+    }
+    .section-heading .rule { height: 1px; background: var(--line); margin-bottom: 9px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 26px;
+      box-shadow: 5px 5px 0 color-mix(in srgb, var(--line) 55%, transparent);
+    }
+    .card.actor { border-top: 6px solid var(--red); }
+    .card.range { border-top: 6px solid var(--cyan); }
+    .card h3 {
+      margin: 0 0 6px;
+      font: 700 30px/.95 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+    }
+    .card.actor h3 { color: var(--red); font-size: clamp(32px, 4vw, 44px); }
+    .card p { color: var(--muted); margin: 0 0 14px; font-size: 15px; }
+    .fact-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+    .fact-list li {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 12px;
+      padding: 9px 0;
+      border-top: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .fact-list dt {
+      font: 600 10px/1.5 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .fact-list dd { margin: 0; color: var(--ink-2); }
+
+    .takeaways {
+      margin-top: 20px;
+      background: var(--ink);
+      color: var(--paper);
+      padding: clamp(24px, 4vw, 40px);
+      position: relative;
+      overflow: hidden;
+    }
+    .takeaways::after {
+      content: "";
+      position: absolute;
+      width: 260px; height: 260px;
+      right: -80px; top: -110px;
+      border: 40px solid color-mix(in srgb, var(--cyan) 45%, transparent);
+      border-radius: 50%;
+      opacity: .5;
+    }
+    .takeaways h3 {
+      margin: 0 0 18px;
+      font: 700 clamp(28px, 4vw, 44px)/.95 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px 26px;
+      position: relative;
+      z-index: 1;
+      margin: 0; padding: 0; list-style: none; counter-reset: take;
+    }
+    .takeaway-grid li { counter-increment: take; font-size: 14.5px; color: color-mix(in srgb, var(--paper) 85%, transparent); }
+    .takeaway-grid li::before {
+      content: "0" counter(take);
+      display: block;
+      font: 600 12px/1 "IBM Plex Mono", monospace;
+      color: var(--gold);
+      margin-bottom: 7px;
+    }
+    .takeaway-grid strong { color: var(--paper); display: block; margin-bottom: 3px; font-size: 15px; }
+
+    .footer-band {
+      margin-top: 44px;
+      border-top: 1px solid var(--line);
+      border-bottom: 8px solid var(--ink);
+      padding: 16px 0 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px 24px;
+      font: 500 11px/1.5 "IBM Plex Mono", monospace;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-band b { color: var(--cyan-strong); font-weight: 600; }
+
+    /* ---------- Presenter mode ---------- */
+    body.present .masthead,
+    body.present .lede,
+    body.present .chain-wrap,
+    body.present .lower,
+    body.present .footer-band { display: none; }
+    body.present .page { padding-top: 12px; }
+    body.present .controls { margin-top: 0; }
+    body.present .phase-head h2 { font-size: clamp(36px, 5vw, 58px); }
+    body.present .phase-teaser { font-size: 17px; }
+    body.present .move-text { font-size: 19px; }
+    body.present .steps li, body.present .sightline li { font-size: 17px; }
+    body.present .lesson p { font-size: 18px; }
+    body.present .needs { font-size: 14px; }
+    body.present .stepper { margin-top: 22px; }
+
+    @media (max-width: 900px) {
+      .masthead { grid-template-columns: 1fr 1fr; }
+      .mast-copy { grid-column: 1 / -1; grid-row: 2; }
+      .flag-block.right { grid-column: 2; }
+      .phase-detail { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .node-name { display: none; }
+      .chain li + li::before { top: 19px; }
+    }
+    @media (max-width: 620px) {
+      .page { width: calc(100% - 20px); padding-top: 12px; }
+      .flag { width: 62px; }
+      .flag-label { font-size: 8px; }
+      .controls { gap: 7px; padding: 8px; }
+      .controls .progress-label { min-width: 0; }
+      .kbd-hint { display: none; }
+      .stepper::before { left: 19px; }
+      .phase { margin-left: 48px; }
+      .phase::before { left: -48px; width: 38px; height: 38px; font-size: 12px; top: 14px; }
+      .branch { margin-left: 48px; grid-template-columns: 1fr; }
+      .phase-head { padding: 16px 48px 16px 16px; }
+      .phase-detail { padding: 18px 16px; }
+      .lesson { grid-template-columns: 1fr; }
+      .fact-list li { grid-template-columns: 96px 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .phase-body, .progress-fill, .chevron, .node { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="masthead" aria-label="Exercise heading">
+      <div class="flag-block">
+        <svg class="flag" viewBox="0 0 247 130" role="img" aria-label="Flag of the United States">
+          <rect width="247" height="130" fill="#fff"/>
+          <g fill="#b22234">
+            <rect width="247" height="10" y="0"/><rect width="247" height="10" y="20"/><rect width="247" height="10" y="40"/><rect width="247" height="10" y="60"/><rect width="247" height="10" y="80"/><rect width="247" height="10" y="100"/><rect width="247" height="10" y="120"/>
+          </g>
+          <rect width="99" height="70" fill="#3c3b6e"/>
+          <g fill="#fff" font-family="serif" font-size="11">
+            <text x="5" y="12">★ ★ ★ ★ ★ ★</text><text x="13" y="23">★ ★ ★ ★ ★</text>
+            <text x="5" y="34">★ ★ ★ ★ ★ ★</text><text x="13" y="45">★ ★ ★ ★ ★</text>
+            <text x="5" y="56">★ ★ ★ ★ ★ ★</text><text x="13" y="67">★ ★ ★ ★ ★</text>
+          </g>
+        </svg>
+        <span class="flag-label">United States<br>partner force</span>
+      </div>
+      <div class="mast-copy">
+        <div class="edition">Bilateral cyber defense exercise · Attack path walkthrough</div>
+        <h1>CiberUY 2.0</h1>
+        <p class="mast-sub">March 15–19, 2027 · Monday–Friday</p>
+      </div>
+      <div class="flag-block right">
+        <span class="flag-label">Uruguay<br>partner force</span>
+        <svg class="flag" viewBox="0 0 180 120" role="img" aria-label="Flag of Uruguay">
+          <rect width="180" height="120" fill="#fff"/>
+          <g fill="#0038a8"><rect y="13.33" width="180" height="13.33"/><rect y="40" width="180" height="13.33"/><rect y="66.67" width="180" height="13.33"/><rect y="93.33" width="180" height="13.33"/></g>
+          <rect width="80" height="66.67" fill="#fff"/>
+          <g transform="translate(40 33.3)" fill="#fcd116" stroke="#8f6c00" stroke-width=".5">
+            <path d="M0-27 L4-11 L0-15 L-4-11z M0 27 L4 11 L0 15 L-4 11z M27 0 L11 4 L15 0 L11-4z M-27 0 L-11 4 L-15 0 L-11-4z"/>
+            <path transform="rotate(45)" d="M0-25 L3-10 L0-14 L-3-10z M0 25 L3 10 L0 14 L-3 10z M25 0 L10 3 L14 0 L10-3z M-25 0 L-10 3 L-14 0 L-10-3z"/>
+            <circle r="10"/>
+          </g>
+        </svg>
+      </div>
+    </header>
+
+    <p class="lede">Seven steps carry the fictional hacktivist crew <strong>Regist3r R3apers</strong> from a single phished password to hands on a simulated water-treatment process — no zero-days, no brute force, just trusted access abused in sequence. Walk the chain step by step: select any phase to open it.</p>
+
+    <div class="controls" role="toolbar" aria-label="Walkthrough controls">
+      <span class="progress-label">Phase <b id="prog-now">1</b> of 7</span>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="prog-fill"></div></div>
+      <button class="ctl-btn" id="btn-prev" type="button"><span class="arr" aria-hidden="true">←</span> Prev</button>
+      <button class="ctl-btn" id="btn-next" type="button">Next <span class="arr" aria-hidden="true">→</span></button>
+      <button class="ctl-btn" id="btn-all" type="button" aria-pressed="false">Expand all</button>
+      <button class="ctl-btn" id="btn-present" type="button" aria-pressed="false">Presenter mode</button>
+      <button class="ctl-btn" id="btn-fs" type="button">Fullscreen</button>
+      <span class="kbd-hint"><kbd>↑</kbd><kbd>↓</kbd> step · <kbd>1</kbd>–<kbd>7</kbd> jump</span>
+    </div>
+
+    <nav class="chain-wrap" aria-label="Attack chain overview">
+      <p class="chain-label">The chain at a glance — select a node to jump to that phase</p>
+      <ol class="chain" id="chain">
+        <li data-i="0"><button type="button"><span class="node">1</span><span class="node-name">The Phish</span></button></li>
+        <li data-i="1"><button type="button"><span class="node">2</span><span class="node-name">Keys to the Kingdom</span></button></li>
+        <li data-i="2"><button type="button"><span class="node">3</span><span class="node-name">Reading the Source</span></button></li>
+        <li data-i="3"><button type="button"><span class="node">4</span><span class="node-name">The Crown Jewels</span></button></li>
+        <li data-i="4"><button type="button"><span class="node">5</span><span class="node-name">The Trojan Utility</span></button></li>
+        <li data-i="5"><button type="button"><span class="node">6</span><span class="node-name">The IT/OT Bridge</span></button></li>
+        <li data-i="6"><button type="button"><span class="node">7</span><span class="node-name">Hands on the Process</span></button></li>
+      </ol>
+    </nav>
+
+    <div class="stepper" id="stepper">
+
+      <!-- PHASE 1 -->
+      <section class="phase" data-step="01" aria-label="Phase 1: Initial access">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-1" id="head-1">
+          <span class="tactic-row"><span class="tactic">Initial Access</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The Phish</h2>
+          <p class="phase-teaser">A password-expiry lure aimed at utility staff harvests a real SSO credential.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-1" role="region" aria-labelledby="head-1">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">Regist3r R3apers open with the oldest trick in the book, aimed carefully. Utility staff receive a plausible IT notice — your single sign-on password is expiring — linking to a pixel-perfect copy of the organization's Keycloak login page.</p>
+                <p class="move-text">One employee types in real credentials. That single password is the only exploit the crew needs for the entire operation.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>Open-source recon identifies the real SSO portal's branding, naming, and login flow.</li>
+                  <li>A lookalike domain hosts a cloned login page that mirrors the genuine Keycloak theme.</li>
+                  <li>The lure goes to staff mailboxes; submitted credentials are captured in real time.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>A newly registered lookalike domain in mail gateway logs</li>
+                  <li>User reports through the phish button</li>
+                  <li>A successful login from an unfamiliar source shortly after</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Phishing-resistant MFA — passkeys or FIDO2 keys — breaks this chain at step one. A password alone is a single point of failure for the whole plant.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1566.002</b> Spearphishing Link</span>
+                    <span><b>T1056.003</b> Web Portal Capture</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Mail service · lookalike SSO login page · seeded staff accounts</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 2 -->
+      <section class="phase" data-step="02" aria-label="Phase 2: Valid accounts at the identity provider">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-2" id="head-2">
+          <span class="tactic-row"><span class="tactic">Credential Access → Privilege Escalation</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>Keys to the Kingdom</h2>
+          <p class="phase-teaser">The stolen password logs straight into Keycloak — and everything federated behind it.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-2" role="region" aria-labelledby="head-2">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">No exploit, no escalation — the crew simply logs in. Keycloak is the front door to every application federated behind it, so one working identity quietly unlocks mail, internal apps, and source control.</p>
+                <p class="move-text">The session token the IdP issues is now the actor's passport, indistinguishable from the real user's own sign-in.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>The actor authenticates to the real Keycloak realm with the harvested credentials.</li>
+                  <li>The issued SSO session is used to enumerate which applications the account can reach.</li>
+                  <li>Source control — Gitea — stands out: same login, far richer target.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>IdP login from a new network, geography, or device fingerprint</li>
+                  <li>Off-hours authentication against the account's normal pattern</li>
+                  <li>Session tokens presented from two places at once</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Treat the identity provider as a tier-0 asset: alert on anomalous logins, enforce conditional access, and make session revocation a one-click response — it cuts the actor's passport off mid-chain.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1078</b> Valid Accounts</span>
+                    <span><b>T1133</b> External Remote Services</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Keycloak realm · SSO federation to Gitea and internal apps</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 3 -->
+      <section class="phase" data-step="03" aria-label="Phase 3: Discovery in source control">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-3" id="head-3">
+          <span class="tactic-row"><span class="tactic">Discovery</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>Reading the Source</h2>
+          <p class="phase-teaser">Inside Gitea, the actor shops the repositories like an insider and finds the HMI integration project.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-3" role="region" aria-labelledby="head-3">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">With a legitimate seat inside Gitea, the crew searches the way any curious insider would: <em>hmi</em>, <em>register</em>, <em>modbus</em>, <em>api</em>. One repository documents exactly how the vendor tooling talks to the plant's human-machine interface.</p>
+                <p class="move-text">Source control stops being a developer convenience and becomes an intelligence archive on how the process is wired.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>Organizations, projects, and permissions visible to the account are enumerated.</li>
+                  <li>Keyword search surfaces the HMI integration repository and its documentation.</li>
+                  <li>READMEs, commit history, and config examples reveal the integration's design.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>Repository enumeration and search by an account that never touches code</li>
+                  <li>Bulk clones or downloads outside normal working patterns</li>
+                  <li>Access reviews showing standing access far beyond job need</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Source control is production-adjacent. Scope repository access to need, audit who can read integration projects, and log search and clone activity like you would a database.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1213</b> Data from Information Repositories</span>
+                    <span><b>T1083</b> File and Directory Discovery</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Seeded Gitea organization · HMI integration repository with realistic docs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 4 -->
+      <section class="phase" data-step="04" aria-label="Phase 4: Collection of the API key and register map">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-4" id="head-4">
+          <span class="tactic-row"><span class="tactic">Collection</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The Crown Jewels</h2>
+          <p class="phase-teaser">A config file gives up the HMI API key; the register map explains what every address controls.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-4" role="region" aria-labelledby="head-4">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">Buried in the repository are the two artifacts that turn access into capability: the API key the vendor tooling uses to talk to the HMI, and the register map — the engineering document that says which addresses drive pumps, valves, and chemical dosing.</p>
+                <p class="move-text">With the map, the actor doesn't have to guess what a write will do. They can read the process like a manual.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>The API key is recovered from a committed configuration file and its history.</li>
+                  <li>The register map is extracted from project documentation and spreadsheets.</li>
+                  <li>A short target list is built: the registers whose manipulation will be felt.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>Secret-scanning alerts on committed credentials</li>
+                  <li>Downloads of engineering documents by non-engineering accounts</li>
+                  <li>An API key that has never been rotated suddenly mattering</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Secrets never live in repositories — scan for them, rotate on any exposure, and treat register maps as sensitive engineering data with the same handling as credentials.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1552.001</b> Credentials in Files</span>
+                    <span><b>T1005</b> Data from Local System</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Planted API key in repo config · register map documentation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 5 -->
+      <section class="phase" data-step="05" aria-label="Phase 5: Supply chain compromise of the vendor utility">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-5" id="head-5">
+          <span class="tactic-row"><span class="tactic">Defense Evasion · Supply Chain</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The Trojan Utility</h2>
+          <p class="phase-teaser">Instead of attacking the plant, the crew poisons the trusted vendor tool the plant already runs.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-5" role="region" aria-labelledby="head-5">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">The crew doesn't attack the plant — they attack what the plant trusts. A vendor diagnostic utility, the kind technicians run without a second thought, is quietly modified so its next routine update carries the actor's code along with it.</p>
+                <p class="move-text">The version bump looks mundane. The signature check that would catch it was never enforced.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>The utility's source or distribution package is altered using the access already gained.</li>
+                  <li>The change is dressed as a routine maintenance release.</li>
+                  <li>It is published through the normal channel the technicians already trust.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>Binaries whose hashes don't match the vendor's published values</li>
+                  <li>Missing or invalid code signatures on an OT-adjacent tool</li>
+                  <li>An update appearing outside the vendor's normal release pattern</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Verify what you run. Code signing, hash verification, and a controlled update path are non-negotiable for any software allowed to touch operational systems.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1195.002</b> Compromise Software Supply Chain</span>
+                    <span><b>T1036</b> Masquerading</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Vendor utility + update mechanism · an enforced-nowhere signing policy</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 6 -->
+      <section class="phase" data-step="06" aria-label="Phase 6: The dual-hatted IT OT endpoint bridge">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-6" id="head-6">
+          <span class="tactic-row"><span class="tactic">Lateral Movement · Execution</span><span class="framework">MITRE ATT&amp;CK</span></span>
+          <h2>The IT/OT Bridge</h2>
+          <p class="phase-teaser">The poisoned utility runs on a dual-hatted workstation — and the IT/OT seam gives way.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-6" role="region" aria-labelledby="head-6">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">One workstation lives in both worlds: it reads IT email and reaches OT systems, because that's how a small utility gets maintenance done. When the poisoned utility runs there during routine work, the actor crosses the seam defenders assumed was a wall.</p>
+                <p class="move-text">From that single foothold, the internal HMI API — never designed to face a hostile caller — is suddenly in reach.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>A technician runs the updated utility as part of normal maintenance.</li>
+                  <li>The embedded code activates on the dual-hatted endpoint and establishes the actor's path inward.</li>
+                  <li>The actor stages from the endpoint toward the OT segment's HMI services.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>A diagnostic utility spawning shells or unexpected network connections</li>
+                  <li>New traffic flows from the IT side toward OT addresses</li>
+                  <li>Endpoint telemetry showing the tool behaving unlike its baseline</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Dual-hatted endpoints quietly dissolve segmentation. Dedicated jump hosts, application allow-listing, and tightly brokered paths across the seam are what make the boundary real.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T1204.002</b> Malicious File</span>
+                    <span><b>T1021</b> Remote Services</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">Dual-homed workstation · segmented IT and OT networks to cross</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHASE 7 -->
+      <section class="phase" data-step="07" aria-label="Phase 7: Action on objectives through the HMI API">
+        <button class="phase-head" type="button" aria-expanded="false" aria-controls="body-7" id="head-7">
+          <span class="tactic-row"><span class="tactic">Impact · Actions on Objectives</span><span class="framework">MITRE ATT&amp;CK for ICS</span></span>
+          <h2>Hands on the Process</h2>
+          <p class="phase-teaser">Using the plant's own API and its own key, the actor writes registers — the process becomes the payload.</p>
+          <span class="chevron" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 6l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        </button>
+        <div class="phase-body" id="body-7" role="region" aria-labelledby="head-7">
+          <div class="phase-body-inner">
+            <div class="phase-detail">
+              <div>
+                <p class="detail-label red">The move</p>
+                <p class="move-text">The endgame needs no malware on a controller and no exploit at all. The actor calls the plant's own HMI API, authenticates with the plant's own key, and writes register values straight from the stolen map: pumps commanded, setpoints shifted, dosing altered.</p>
+                <p class="move-text">Every request is well-formed and authorized on paper. Only the intent is hostile — and the simulated process responds exactly as the real one would.</p>
+              </div>
+              <div>
+                <p class="detail-label">How it unfolds</p>
+                <ol class="steps">
+                  <li>API calls are issued from the bridged endpoint using the recovered key.</li>
+                  <li>Writes target the registers chosen back in Phase 4 for maximum visible effect.</li>
+                  <li>Operators see process values drift on the HMI with no local action to explain them.</li>
+                </ol>
+                <p class="detail-label" style="margin-top:20px">What defenders can see</p>
+                <ul class="sightline">
+                  <li>API writes originating from an unusual host or account context</li>
+                  <li>Setpoint changes with no matching operator action</li>
+                  <li>Process values trending outside their normal envelope</li>
+                </ul>
+              </div>
+              <div class="lesson">
+                <p class="detail-label">Defender lesson</p>
+                <p>Authenticate <em>and</em> authorize every API write, alarm on out-of-envelope values, and require human confirmation for critical setpoints. A valid key should never be the whole story.</p>
+              </div>
+              <div class="meta-row">
+                <div class="meta-block">
+                  <p class="detail-label">Techniques</p>
+                  <div class="tech-chips">
+                    <span><b>T0855</b> Unauthorized Command</span>
+                    <span><b>T0836</b> Modify Parameter</span>
+                  </div>
+                </div>
+                <div class="meta-block">
+                  <p class="detail-label">What this phase needs on the range</p>
+                  <p class="needs">HMI API simulator · simulated treatment process with a safety envelope</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="branch" aria-label="Alternate scenario branch">
+        <span class="tag">Alternate branch</span>
+        <p><strong>GeoServer outage map.</strong> A parallel storyline — tampering with the public outage map served by GeoServer — is held in reserve as a backup branch if the primary chain needs a pressure valve. The walkthrough above is the main event.</p>
+      </aside>
+    </div>
+
+    <div class="lower">
+      <div class="section-heading">
+        <h2>The players &amp; the range</h2>
+        <div class="rule" aria-hidden="true"></div>
+      </div>
+      <div class="two-col">
+        <article class="card actor">
+          <p class="detail-label red" style="margin-bottom:10px">Threat actor</p>
+          <h3>Regist3r R3apers</h3>
+          <p>A fictional hacktivist crew — the name is the tell: their endgame is the register map of a water plant, and they get there through identity, not exploits.</p>
+          <dl class="fact-list">
+            <li><dt>Motivation</dt><dd>Publicity and embarrassment — prove a water utility can be reached, then claim credit</dd></li>
+            <li><dt>Tradecraft</dt><dd>Identity-first: phishing, valid accounts, trusted tooling, legitimate APIs</dd></li>
+            <li><dt>Objective</dt><dd>Manipulate the simulated treatment process via the HMI API</dd></li>
+            <li><dt>Notably absent</dt><dd>No zero-days, no brute force, no malware on controllers</dd></li>
+          </dl>
+        </article>
+        <article class="card range">
+          <p class="detail-label" style="margin-bottom:10px">Simulated environment</p>
+          <h3>What the path runs on</h3>
+          <p>Every step executes against services the range must stand up and seed — the dependencies that make the story reproducible.</p>
+          <dl class="fact-list">
+            <li><dt>Keycloak</dt><dd>Identity provider; realm, users, and SSO federation</dd></li>
+            <li><dt>Gitea</dt><dd>Source control holding the integration repo, API key, and register map</dd></li>
+            <li><dt>Vendor utility</dt><dd>Trusted diagnostic tool with a normal-looking update channel</dd></li>
+            <li><dt>Dual-hatted host</dt><dd>Workstation straddling the segmented IT and OT networks</dd></li>
+            <li><dt>HMI API</dt><dd>Simulated process API with a register map and safety limits</dd></li>
+            <li><dt>GeoServer</dt><dd>Outage-map service for the reserve branch</dd></li>
+          </dl>
+        </article>
+      </div>
+
+      <section class="takeaways" aria-label="Defender takeaways">
+        <h3>Breaking the chain — five places to win</h3>
+        <ol class="takeaway-grid">
+          <li><strong>Kill the phish's payoff</strong>Phishing-resistant MFA means a stolen password buys nothing.</li>
+          <li><strong>Guard the IdP like tier-0</strong>Anomaly alerts plus fast session revocation strand the actor at the door.</li>
+          <li><strong>Keep secrets out of source</strong>Scanning and rotation turn a leaked key into a dead key.</li>
+          <li><strong>Verify vendor tooling</strong>Signing and hash checks stop the trojan utility cold.</li>
+          <li><strong>Watch the process, not just the network</strong>Alarms on impossible setpoints catch what valid credentials hide.</li>
+        </ol>
+      </section>
+    </div>
+
+    <footer class="footer-band">
+      <span><b>CiberUY 2.0</b> · United States — Uruguay · March 15–19, 2027</span>
+      <span>Regist3r R3apers scenario · all systems simulated</span>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var phases = Array.prototype.slice.call(document.querySelectorAll(".phase"));
+      var heads = phases.map(function (p) { return p.querySelector(".phase-head"); });
+      var chainItems = Array.prototype.slice.call(document.querySelectorAll("#chain li"));
+      var chainBtns = chainItems.map(function (li) { return li.querySelector("button"); });
+      var progNow = document.getElementById("prog-now");
+      var progFill = document.getElementById("prog-fill");
+      var btnPrev = document.getElementById("btn-prev");
+      var btnNext = document.getElementById("btn-next");
+      var btnAll = document.getElementById("btn-all");
+      var btnPresent = document.getElementById("btn-present");
+      var btnFs = document.getElementById("btn-fs");
+      var TOTAL = phases.length;
+      var current = 0;
+      var allOpen = false;
+
+      function syncUI() {
+        progNow.textContent = String(current + 1);
+        progFill.style.width = ((current + 1) / TOTAL * 100) + "%";
+        btnPrev.disabled = current === 0;
+        btnNext.disabled = current === TOTAL - 1;
+        chainItems.forEach(function (li, i) {
+          li.classList.toggle("current", i === current);
+          li.classList.toggle("done", i < current || phases[i].classList.contains("visited"));
+        });
+      }
+
+      function openOnly(index, scroll) {
+        allOpen = false;
+        btnAll.setAttribute("aria-pressed", "false");
+        btnAll.textContent = "Expand all";
+        phases.forEach(function (p, i) {
+          var open = i === index;
+          p.classList.toggle("open", open);
+          if (open) p.classList.add("visited");
+          heads[i].setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        current = index;
+        syncUI();
+        if (scroll) {
+          phases[index].scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function toggle(index) {
+        if (!allOpen && phases[index].classList.contains("open") && current === index) {
+          phases[index].classList.remove("open");
+          heads[index].setAttribute("aria-expanded", "false");
+          return;
+        }
+        openOnly(index, false);
+      }
+
+      heads.forEach(function (head, i) {
+        head.addEventListener("click", function () { toggle(i); });
+      });
+      chainBtns.forEach(function (btn, i) {
+        btn.addEventListener("click", function () { openOnly(i, true); });
+      });
+
+      btnPrev.addEventListener("click", function () {
+        if (current > 0) openOnly(current - 1, true);
+      });
+      btnNext.addEventListener("click", function () {
+        if (current < TOTAL - 1) openOnly(current + 1, true);
+      });
+
+      btnAll.addEventListener("click", function () {
+        allOpen = !allOpen;
+        btnAll.setAttribute("aria-pressed", allOpen ? "true" : "false");
+        btnAll.textContent = allOpen ? "Collapse all" : "Expand all";
+        phases.forEach(function (p, i) {
+          p.classList.toggle("open", allOpen);
+          if (allOpen) p.classList.add("visited");
+          heads[i].setAttribute("aria-expanded", allOpen ? "true" : "false");
+        });
+        if (!allOpen) {
+          phases[current].classList.add("open");
+          heads[current].setAttribute("aria-expanded", "true");
+        }
+        syncUI();
+      });
+
+      btnPresent.addEventListener("click", function () {
+        var on = document.body.classList.toggle("present");
+        btnPresent.setAttribute("aria-pressed", on ? "true" : "false");
+        if (on) phases[current].scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      btnFs.addEventListener("click", function () {
+        try {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          }
+        } catch (e) { /* fullscreen unavailable in this shell — presenter mode still applies */ }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        var tag = (event.target && event.target.tagName) || "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.metaKey || event.ctrlKey || event.altKey) return;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+          if (current < TOTAL - 1) { event.preventDefault(); openOnly(current + 1, true); }
+        } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          if (current > 0) { event.preventDefault(); openOnly(current - 1, true); }
+        } else if (/^[1-7]$/.test(event.key)) {
+          openOnly(parseInt(event.key, 10) - 1, true);
+        } else if (event.key === "Home") {
+          event.preventDefault(); openOnly(0, true);
+        } else if (event.key === "End") {
+          event.preventDefault(); openOnly(TOTAL - 1, true);
+        }
+      });
+
+      openOnly(0, false);
+    })();
+  </script>
+</body>
+</html>
